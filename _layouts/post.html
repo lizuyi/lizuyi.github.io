@@ -1,43 +1,29 @@
-{% include mode_switcher.html %}
+---
+layout: default
+---
+<article class="post container">
+  <div class="post-meta">
+    <span class="post-meta-span date">{{ page.date | date:"%Y %B %d" }}</span>
+    {% if page.tags.size > 0 %}
+    <span class="post-meta-span tag">{{ page.tags | join: ', ' }}</span>
+    {% endif %}
+  </div>
 
-<!DOCTYPE html>
-<html>
-<head>
-    {% include head_base.html %}
-    {% include head_post.html %}
-</head>
+  <h1 class="post-title">{{ page.title }}</h1>
+  {{ content }}
+</article>
 
-<body>
-    {% include header.html %}
+<div class="post-share">
+  <div class="container">
+    <a href="https://twitter.com/share?url={{ page.url | prepend: site.baseurl | prepend: site.url }}&text={{ page.title }}" target="_blank" class="post-share-icon twitter"></a>
+    <a href="https://www.evernote.com/clip.action?url={{ page.url | prepend: site.baseurl | prepend: site.url }}&title={{ page.title }}" target="_blank" class="post-share-icon evernote"></a>
+    <a href="http://service.weibo.com/share/share.php?url={{ page.url | prepend: site.baseurl | prepend: site.url }}&title={{ page.title }}" target="_blank" class="post-share-icon weibo"></a>
+  </div>
+</div>
 
-    <div class="container">
-        <div class="row">
-            <div id="markdown-container" class="col-lg-9">
-                <header>
-                    <p id="postTitle">{{ page.title }}</p>
-                    {% if page.tags %}
-                    <ul class="tags clearfix">
-                        {% for tag in page.tags %}
-                        <li><i class="fa fa-tag"></i> {{ tag }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
-                    <p id="postMeta">posted on {{ page.date | date_to_string }} under category <a href="{{crturl}}category/">{{ page.categories[0] }}</a></p>
-
-                </header>
-
-                {{ content }}
-            </div>
-
-            <div id="markdown-outline" class="col-lg-3">
-            </div>
-
-            {% include disqus_load.html %}
-        </div>
-    </div>
-
-    {% include footer.html %}
-
-    <script type="text/javascript" src="{{crturl}}javascripts/markdownreader.js"></script>
-</body>
-</html>
+{% if site.disqus.shortname %}
+<div class="comment container">
+  <div id="disqus_thread">
+  </div>
+</div>
+{% endif %}
